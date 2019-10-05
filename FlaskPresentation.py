@@ -24,7 +24,9 @@ def home():
                 length = df.iloc[(cache['foo']*100):((cache['foo']*100)+100)].index
             else:
                 cache['foo'] -= 1
-                length = df.iloc[(cache['foo']*100):((cache['foo']*100)+100)].index         
+                length = df.iloc[(cache['foo']*100):((cache['foo']*100)+100)].index   
+        elif requestForm['submit_button'] in list(df['CustomerID']):
+            length = df[df['CustomerID'] == requestForm['submit_button']].index
     return render_template('index.html', headers=header, length=length, df=df, page=cache['page'] )
 
 
