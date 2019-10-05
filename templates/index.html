@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Customer Segmentation</title>
+    <!-- CSS Bootstraop -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href={{url_for('static', filename='stylingtable.css')}}>
+    <link rel="stylesheet" type="text/css" href={{url_for('static', filename='stylingnext.css')}}>
+</head>
+<body>
+      <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <button class="nav-link active" onclick="ChangeToPage1()">Data Customers</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" onclick="ChangeToPage2()">Plot</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" onclick="ChangeToPage3()">Plot</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" onclick="ChangeToPage4()">Test Predict</button>
+            </li>
+      </ul>
+    <div id="home">
+    <form action="" method="POST">
+        <div class="form-group col-md-2">
+            <label for="idcust">Customer ID</label>
+            <input type="text" class="form-control" id="idcust">
+        </div>
+    </form>
+    <center><h4><b>Data Customer Transactions</b></h4></center>
+    <table id='customers'>
+        <tr>
+        {% for header in headers %}<th>{{ header }}&nbsp&nbsp</th>{% endfor %}
+        </tr>
+        {% for i in length %}
+        <tr>
+        {% for j in headers %}<td>{{ df.ix[i,j] }}&nbsp&nbsp</td>
+        {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="" method="POST">
+    <input type="submit" name="submit_button" value="Next"/>
+    <input type="submit" name="submit_button" value="Previous"/>
+    </form>
+    </div>
+    <div id="plot1" style="display: none">
+        <h1>Hai</h1>
+    </div>
+    <div id="plot2" style="display: none">
+      <h3>Coming Soon</h3>
+    </div>
+    <div id="predict" style="display: none">
+      <h3>Coming Soon Predict</h3>
+    </div>
+
+    <!-- <form>
+  <div class="form-row align-items-center">
+    <div class="col-auto my-1">
+      <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+      <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="submit">
+        <option selected>Choose...</option>
+        {% for page in range(5500) %}<option>{{ page }}&nbsp&nbsp</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-auto my-1">
+      <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
+    </div>
+  </div>
+</form> -->
+
+</body>
+<!-- Javascript Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>function ChangeToPage1() {
+    console.log('test')
+    document.getElementById("home").style.display= "block";
+    document.getElementById("plot1").style.display= "none";
+    document.getElementById("plot2").style.display= "none";
+    document.getElementById("predict").style.display= "none";
+  }
+  function ChangeToPage2() {
+    console.log('test')
+    document.getElementById("home").style.display= "none";
+    document.getElementById("plot1").style.display= "block";
+    document.getElementById("plot2").style.display= "none";
+    document.getElementById("predict").style.display= "none";
+  }
+  function ChangeToPage3() {
+    console.log('test')
+    document.getElementById("home").style.display= "none";
+    document.getElementById("plot1").style.display= "none";
+    document.getElementById("plot2").style.display= "block";
+    document.getElementById("predict").style.display= "none";
+  }
+  function ChangeToPage4() {
+    console.log('test')
+    document.getElementById("home").style.display= "none";
+    document.getElementById("plot1").style.display= "none";
+    document.getElementById("plot2").style.display= "none";
+    document.getElementById("predict").style.display= "block";
+  }</script>
+<script type="text/javascript" src="{{url_for('static', filename='nextbttn.js')}}"></script>
+</html>
