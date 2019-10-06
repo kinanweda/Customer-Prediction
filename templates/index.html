@@ -15,10 +15,13 @@
               <button class="nav-link active" onclick="ChangeToPage1()">Data Customers</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" onclick="ChangeToPage2()">Pie Chart</button>
+              <button class="nav-link" onclick="ChangeToPage2()">Map</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" onclick="ChangeToPage3()">Plot</button>
+              <button class="nav-link" onclick="ChangeToPage3()">Pie Chart</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" onclick="ChangeToPage4()">Plot</button>
             </li>
             <li class="nav-item">
               <button class="nav-link" onclick="ChangeToPage4()">Test Predict</button>
@@ -51,6 +54,11 @@
     <input class="file-field input-field col-md-1" type="submit" name="submit_button" value="Next"/>
     </form>
     </div>
+    <div id='map' style="display: none; width: 700px; height:500px;margin-top: 5%;margin-left: 22%">
+        {% block body %}
+        {% include "map.html" %}
+        {% endblock %}  
+    </div>
     <div id="plot1" style="display: none">
         <center><div class="chart" id="pie" style="width: 700px; height:700px"></div></center>
     </div>
@@ -69,24 +77,35 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>function ChangeToPage1() {
     document.getElementById("home").style.display= "block";
+    document.getElementById("map").style.display= "none";
     document.getElementById("plot1").style.display= "none";
     document.getElementById("plot2").style.display= "none";
     document.getElementById("predict").style.display= "none";
   }
   function ChangeToPage2() {
     document.getElementById("home").style.display= "none";
-    document.getElementById("plot1").style.display= "block";
+    document.getElementById("map").style.display= "block";
+    document.getElementById("plot1").style.display= "none";
     document.getElementById("plot2").style.display= "none";
     document.getElementById("predict").style.display= "none";
   }
   function ChangeToPage3() {
     document.getElementById("home").style.display= "none";
-    document.getElementById("plot1").style.display= "none";
-    document.getElementById("plot2").style.display= "block";
+    document.getElementById("map").style.display= "none";
+    document.getElementById("plot1").style.display= "block";
+    document.getElementById("plot2").style.display= "none";
     document.getElementById("predict").style.display= "none";
   }
   function ChangeToPage4() {
     document.getElementById("home").style.display= "none";
+    document.getElementById("map").style.display= "none";
+    document.getElementById("plot1").style.display= "none";
+    document.getElementById("plot2").style.display= "block";
+    document.getElementById("predict").style.display= "none";
+  }
+  function ChangeToPage5() {
+    document.getElementById("home").style.display= "none";
+    document.getElementById("map").style.display= "none";
     document.getElementById("plot1").style.display= "none";
     document.getElementById("plot2").style.display= "none";
     document.getElementById("predict").style.display= "block";

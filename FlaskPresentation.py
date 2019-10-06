@@ -7,6 +7,8 @@ import requests,plotly,json,folium
 
 app = Flask(__name__)
 
+country_geo = 'world-countries.json'
+
 df = pd.read_csv("data.csv", encoding="ISO-8859-1", dtype={'CustomerID': str,'InvoiceID': str})
 df.replace({'':np.NaN},inplace=True)
 cache={'foo':0,'page':'data'}
@@ -68,6 +70,41 @@ def home():
         elif requestForm['submit_button'] in list(df['CustomerID']):
             length = df[df['CustomerID'] == requestForm['submit_button']].index
     return render_template('index.html', headers=header, length=length, df=df, page=cache['page'], plot = bar )
+
+@app.route('/map')
+def foliumMap():
+    idCountry = pd.read_json('world-countries.json')
+    idCountry['features']
+    a = [i['id'] for i in idCountry['features']]
+    b = [j['properties']['name'] for j in idCountry['features']]
+
+    listIdCountry = pd.DataFrame({
+        'Negara':b,
+        'id' : a,
+    })
+    a = 0
+    listTotal = []
+    listCountry = []
+    listPct = []
+    for i,item in enumerate(df['Country'].unique()):
+        listTotal.append(df[(df['Country']== item ) & True].shape[0])
+        a = a + df[(df['Country']== item ) & True].shape[0]
+        listCountry.append(item)
+        listPct.append(round((listTotal[i]/df.shape[0])*100,2))
+
+    country = pd.DataFrame({'Negara' : df['Country'].unique(),'Total Customer' : listTotal,'Percentage' : listPct})
+    country = pd.merge(country,listIdCountry,left_on ='Negara', right_on ='Negara',how='left')
+    map = folium.Map(
+        location=[53.2202105,-22.2277193], zoom_start=4
+    )
+
+    map.choropleth(geo_data=country_geo, data=country,
+             columns=['id', 'Percentage'],
+             key_on='feature.id',
+             fill_color='YlGnBu', fill_opacity=0.8, line_opacity=0.2,
+             legend_name='Total Customer')
+    map.save('templates/map.html')
+    return render_template('map.html')
 
 
 if (__name__) == '__main__':
