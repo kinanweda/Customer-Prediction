@@ -1,7 +1,9 @@
 #customers {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 100%;
+    width: 95%;
+    margin-right: center;
+    margin-left: 2%;
     display: block;
     height: 300px;
     overflow-y: scroll;

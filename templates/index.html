@@ -15,7 +15,7 @@
               <button class="nav-link active" onclick="ChangeToPage1()">Data Customers</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" onclick="ChangeToPage2()">Plot</button>
+              <button class="nav-link" onclick="ChangeToPage2()">Pie Chart</button>
             </li>
             <li class="nav-item">
               <button class="nav-link" onclick="ChangeToPage3()">Plot</button>
@@ -26,10 +26,12 @@
       </ul>
     <div id="home">
     <form action="" method="POST">
-        <div class="form-group col-md-2">
-            <label for="idcust">Customer ID</label>
-            <input type="text" class="form-control" id="idcust" name="submit_button">
-            <input type="submit" value="submit"/>
+        <div class="row">
+            <div class="input-field row s6" style="margin-left: 2%">
+              <input id="first_name2" type="text" class="validate" name="submit_button">
+              <label class="active" for="first_name2">Customer ID</label>
+              <button class="btn btn-primary light-blue lighten-2" type="submit">Submit</button>
+            </div>
         </div>
     </form>
     <center><h4><b>Data Customer Transactions</b></h4></center>
@@ -45,12 +47,12 @@
         {% endfor %}
     </table>
     <form action="" method="POST">
-    <input type="submit" name="submit_button" value="Next"/>
-    <input type="submit" name="submit_button" value="Previous"/>
+    <input class="file-field input-field col-md-1" type="submit" name="submit_button" value="Previous" style="margin-left: 42%"/>
+    <input class="file-field input-field col-md-1" type="submit" name="submit_button" value="Next"/>
     </form>
     </div>
     <div id="plot1" style="display: none">
-        <h1>Hai</h1>
+        <center><div class="chart" id="pie" style="width: 700px; height:700px"></div></center>
     </div>
     <div id="plot2" style="display: none">
       <h3>Coming Soon</h3>
@@ -58,23 +60,6 @@
     <div id="predict" style="display: none">
       <h3>Coming Soon Predict</h3>
     </div>
-
-    <!-- <form>
-  <div class="form-row align-items-center">
-    <div class="col-auto my-1">
-      <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-      <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="submit">
-        <option selected>Choose...</option>
-        {% for page in range(5500) %}<option>{{ page }}&nbsp&nbsp</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="col-auto my-1">
-      <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
-    </div>
-  </div>
-</form> -->
-
 </body>
 <!-- Javascript Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -83,32 +68,33 @@
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>function ChangeToPage1() {
-    console.log('test')
     document.getElementById("home").style.display= "block";
     document.getElementById("plot1").style.display= "none";
     document.getElementById("plot2").style.display= "none";
     document.getElementById("predict").style.display= "none";
   }
   function ChangeToPage2() {
-    console.log('test')
     document.getElementById("home").style.display= "none";
     document.getElementById("plot1").style.display= "block";
     document.getElementById("plot2").style.display= "none";
     document.getElementById("predict").style.display= "none";
   }
   function ChangeToPage3() {
-    console.log('test')
     document.getElementById("home").style.display= "none";
     document.getElementById("plot1").style.display= "none";
     document.getElementById("plot2").style.display= "block";
     document.getElementById("predict").style.display= "none";
   }
   function ChangeToPage4() {
-    console.log('test')
     document.getElementById("home").style.display= "none";
     document.getElementById("plot1").style.display= "none";
     document.getElementById("plot2").style.display= "none";
     document.getElementById("predict").style.display= "block";
   }</script>
-<script type="text/javascript" src="{{url_for('static', filename='nextbttn.js')}}"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <script>
+    var graphs = {{ plot | safe }};
+    Plotly.plot('pie',graphs,{});
+  </script>
 </html>
