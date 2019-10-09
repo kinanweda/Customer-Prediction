@@ -24,18 +24,26 @@
               <button class="nav-link" onclick="ChangeToPage4()">Plot</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" onclick="ChangeToPage4()">Test Predict</button>
+              <button class="nav-link" onclick="ChangeToPage5()">Test Predict</button>
             </li>
       </ul>
-    <div id="home">
+    <div id="home" style="display: block">
     <form action="" method="POST">
-        <div class="row">
-            <div class="input-field row s6" style="margin-left: 2%">
-              <input id="first_name2" type="text" class="validate" name="submit_button">
-              <label class="active" for="first_name2">Customer ID</label>
-              <button class="btn btn-primary light-blue lighten-2" type="submit">Submit</button>
-            </div>
-        </div>
+        <div class="row" style="margin-left: 3%; margin-top: 1%;">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s6" style="margin-left: 2%">
+                  <input id="first_name2" type="text" class="validate" name="submit_button">
+                  <label class="active" for="first_name2">Customer ID</label>
+                  <button class="btn btn-primary light-blue lighten-3" type="submit">Submit</button>
+                </div>
+                <!-- <div class="input-field col s6" style="margin-left: 2%">
+                  <input id="last_name" type="text" class="validate" name="submit_button">
+                  <label class="active" for="last_name">Country</label>
+                </div> -->
+              </div>
+            </form>
+          </div>
     </form>
     <center><h4><b>Data Customer Transactions</b></h4></center>
     <table id='customers'>
@@ -54,16 +62,56 @@
     <input class="file-field input-field col-md-1" type="submit" name="submit_button" value="Next"/>
     </form>
     </div>
-    <div id='map' style="display: none; width: 700px; height:500px;margin-top: 5%;margin-left: 22%">
+    <form action="http://localhost:5000/" method="POST">
+    <div id='map' style="display: none; width: 700px; height:500px;margin-top: 4%;margin-left: 22%">
         {% block body %}
         {% include "map.html" %}
         {% endblock %}  
+        <input class="file-field input-field col-md-2" type="submit" name="submit_button" value="Fullscreen" style="margin-left: 42%">
     </div>
     <div id="plot1" style="display: none">
         <center><div class="chart" id="pie" style="width: 700px; height:700px"></div></center>
     </div>
     <div id="plot2" style="display: none">
-      <h3>Coming Soon</h3>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2" >
+          <button class="dropdown-item"  type="button" onclick="ChangeToPlot0()" >Cluster 0</button>
+          <button class="dropdown-item"  type="button" onclick="ChangeToPlot1()" >Cluster 1</button>
+          <button class="dropdown-item"  type="button" onclick="ChangeToPlot2()" >Cluster 2</button>
+          <button class="dropdown-item"  type="button" onclick="ChangeToPlot3()" >Cluster 3</button>
+          <button class="dropdown-item"  type="button" onclick="ChangeToPlot4()" >Cluster 4</button>
+          <button class="dropdown-item"  type="button" onclick="ChangeToPlot5()" >Cluster 5</button>
+          <button class="dropdown-item"  type="button" onclick="ChangeToPlot6()" >Cluster 6</button>
+          <button class="dropdown-item"  type="button" onclick="ChangeToPlot7()" >Cluster 7</button>
+        </div>
+      </div>
+      <div id='cluster0' style="display: block">
+      <center><div class="chart" id="cl0" style="width: 700px; height:700px"></div></center>
+      </div>
+      <div id='cluster1' style="display:none">
+      <center><div class="chart" id="cl1" style="width: 700px; height:700px"></div></center>
+      </div>
+      <div id='cluster2' style="display:none">
+      <center><div class="chart" id="cl2" style="width: 700px; height:700px"></div></center>
+      </div>  
+      <div id='cluster3' style="display:none">
+      <center><div class="chart" id="cl3" style="width: 700px; height:700px"></div></center>
+      </div>  
+      <div id='cluster4' style="display:none">
+      <center><div class="chart" id="cl4" style="width: 700px; height:700px"></div></center>
+      </div> 
+      <div id='cluster5' style="display:none">
+      <center><div class="chart" id="cl5" style="width: 700px; height:700px"></div></center>
+      </div> 
+      <div id='cluster6' style="display:none">
+      <center><div class="chart" id="cl6" style="width: 700px; height:700px"></div></center>
+      </div> 
+      <div id='cluster7' style="display:none">
+      <center><div class="chart" id="cl7" style="width: 700px; height:700px"></div></center>
+      </div> 
     </div>
     <div id="predict" style="display: none">
       <h3>Coming Soon Predict</h3>
@@ -110,10 +158,123 @@
     document.getElementById("plot2").style.display= "none";
     document.getElementById("predict").style.display= "block";
   }</script>
+  <script>function ChangeToPlot0() {
+    document.getElementById("cluster0").style.display= "block";
+    document.getElementById("cluster1").style.display= "none";
+    document.getElementById("cluster2").style.display= "none";
+    document.getElementById("cluster3").style.display= "none";
+    document.getElementById("cluster4").style.display= "none";
+    document.getElementById("cluster5").style.display= "none";
+    document.getElementById("cluster6").style.display= "none";
+    document.getElementById("cluster7").style.display= "none";
+  }
+  function ChangeToPlot1() {
+    document.getElementById("cluster0").style.display= "none";
+    document.getElementById("cluster1").style.display= "block";
+    document.getElementById("cluster2").style.display= "none";
+    document.getElementById("cluster3").style.display= "none";
+    document.getElementById("cluster4").style.display= "none";
+    document.getElementById("cluster5").style.display= "none";
+    document.getElementById("cluster6").style.display= "none";
+    document.getElementById("cluster7").style.display= "none";
+  }
+  function ChangeToPlot2() {
+    document.getElementById("cluster0").style.display= "none";
+    document.getElementById("cluster1").style.display= "none";
+    document.getElementById("cluster2").style.display= "block";
+    document.getElementById("cluster3").style.display= "none";
+    document.getElementById("cluster4").style.display= "none";
+    document.getElementById("cluster5").style.display= "none";
+    document.getElementById("cluster6").style.display= "none";
+    document.getElementById("cluster7").style.display= "none";
+  }
+  function ChangeToPlot3() {
+    document.getElementById("cluster0").style.display= "none";
+    document.getElementById("cluster1").style.display= "none";
+    document.getElementById("cluster2").style.display= "none";
+    document.getElementById("cluster3").style.display= "block";
+    document.getElementById("cluster4").style.display= "none";
+    document.getElementById("cluster5").style.display= "none";
+    document.getElementById("cluster6").style.display= "none";
+    document.getElementById("cluster7").style.display= "none";
+  }
+  function ChangeToPlot4() {
+    document.getElementById("cluster0").style.display= "none";
+    document.getElementById("cluster1").style.display= "none";
+    document.getElementById("cluster2").style.display= "none";
+    document.getElementById("cluster3").style.display= "none";
+    document.getElementById("cluster4").style.display= "block";
+    document.getElementById("cluster5").style.display= "none";
+    document.getElementById("cluster6").style.display= "none";
+    document.getElementById("cluster7").style.display= "none";
+  }
+  function ChangeToPlot5() {
+    document.getElementById("cluster0").style.display= "none";
+    document.getElementById("cluster1").style.display= "none";
+    document.getElementById("cluster2").style.display= "none";
+    document.getElementById("cluster3").style.display= "none";
+    document.getElementById("cluster4").style.display= "none";
+    document.getElementById("cluster5").style.display= "block";
+    document.getElementById("cluster6").style.display= "none";
+    document.getElementById("cluster7").style.display= "none";
+  }
+  function ChangeToPlot6() {
+    document.getElementById("cluster0").style.display= "none";
+    document.getElementById("cluster1").style.display= "none";
+    document.getElementById("cluster2").style.display= "none";
+    document.getElementById("cluster3").style.display= "none";
+    document.getElementById("cluster4").style.display= "none";
+    document.getElementById("cluster5").style.display= "none";
+    document.getElementById("cluster6").style.display= "block";
+    document.getElementById("cluster7").style.display= "none";
+  }
+  function ChangeToPlot7() {
+    document.getElementById("cluster0").style.display= "none";
+    document.getElementById("cluster1").style.display= "none";
+    document.getElementById("cluster2").style.display= "none";
+    document.getElementById("cluster3").style.display= "none";
+    document.getElementById("cluster4").style.display= "none";
+    document.getElementById("cluster5").style.display= "none";
+    document.getElementById("cluster6").style.display= "none";
+    document.getElementById("cluster7").style.display= "block";
+  }
+  </script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
   <script>
     var graphs = {{ plot | safe }};
     Plotly.plot('pie',graphs,{});
+  </script>
+  <script>
+    var graphs = {{ plotbar | safe }};
+    Plotly.plot('cl0',graphs,{});
+  </script>
+  <script>
+    var graphs = {{ plotbar1 | safe }};
+    Plotly.plot('cl1',graphs,{});
+  </script>
+  <script>
+    var graphs = {{ plotbar2 | safe }};
+    Plotly.plot('cl2',graphs,{});
+  </script>
+  <script>
+    var graphs = {{ plotbar3 | safe }};
+    Plotly.plot('cl3',graphs,{});
+  </script>
+  <script>
+    var graphs = {{ plotbar4 | safe }};
+    Plotly.plot('cl4',graphs,{});
+  </script>
+  <script>
+    var graphs = {{ plotbar5 | safe }};
+    Plotly.plot('cl5',graphs,{});
+  </script>
+    <script>
+      var graphs = {{ plotbar6 | safe }};
+      Plotly.plot('cl6',graphs,{});
+    </script>
+    <script>
+    var graphs = {{ plotbar7 | safe }};
+    Plotly.plot('cl7',graphs,{});
   </script>
 </html>
