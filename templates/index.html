@@ -33,7 +33,7 @@
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s6" style="margin-left: 2%">
-                  <input id="first_name2" type="text" class="validate" name="submit_button">
+                  <input id="first_name2" type="text" class="validate"  name="submit_button">
                   <label class="active" for="first_name2">Customer ID</label>
                   <button class="btn btn-primary light-blue lighten-3" type="submit">Submit</button>
                 </div>
@@ -58,8 +58,8 @@
         {% endfor %}
     </table>
     <form action="" method="POST">
-    <input class="file-field input-field col-md-1" type="submit" name="submit_button" value="Previous" style="margin-left: 42%"/>
-    <input class="file-field input-field col-md-1" type="submit" name="submit_button" value="Next"/>
+    <input class="file-field input-field col-md-1" type="submit"  name="submit_button"  value="Previous" style="margin-left: 42%"/>
+    <input class="file-field input-field col-md-1" type="submit"  name="submit_button"  value="Next"/>
     </form>
     </div>
     <form action="http://localhost:5000/" method="POST">
@@ -114,7 +114,34 @@
       </div> 
     </div>
     <div id="predict" style="display: none">
-      <h3>Coming Soon Predict</h3>
+    <form class="col s3">
+      <div class="row">
+        <div class="input-field col s6">
+          <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+          <label for="first_name">First Name</label>
+        </div>
+        <div class="input-field col s3">
+          <input id="last_name" type="text" class="validate">
+          <label for="last_name">Last Name</label>
+        </div>
+        <div class="input-field col s6">
+          <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+          <label for="first_name">First Name</label>
+        </div>
+        <div class="input-field col s3">
+          <input id="last_name" type="text" class="validate">
+          <label for="last_name">Last Name</label>
+        </div>
+        <div class="input-field col s6">
+          <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+          <label for="first_name">First Name</label>
+        </div>
+        <div class="input-field col s3">
+          <input id="last_name" type="text" class="validate">
+          <label for="last_name">Last Name</label>
+        </div>
+      </div>
+      </form>
     </div>
 </body>
 <!-- Javascript Bootstrap -->

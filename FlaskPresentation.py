@@ -46,145 +46,10 @@ def create_plot():
                         (basketPrice['Basket Price'] > prices[i-1])]['Basket Price'].count()
         values.append(val)
 
-    data=[go.Pie(labels=labels, values=values)]
-    graphJson = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+    data=[go.Pie(labels=labels, values=values, title='Pie Chart', titleposition='top center', titlefont=dict(size=25))]
+    graphJson = json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
+    # print(graphJson)
     return graphJson
-
-# def bar_plot():
-#     body = request.form
-#     dfCleaned = pd.read_csv('dfCleaned_2.csv', index_col = False)
-#     dfCleaned = dfCleaned.drop('Unnamed: 0',axis='columns')
-#     dfFinal = pd.read_csv('final_dataset_V2.csv')
-#     cust0 = list(dfFinal[dfFinal['cluster']==0]['CustomerID'])
-#     cluster0 = dfCleaned[dfCleaned['CustomerID'].isin(cust0)]
-#     cust1 = list(dfFinal[dfFinal['cluster']==1]['CustomerID'])
-#     cluster1 = dfCleaned[dfCleaned['CustomerID'].isin(cust1)]
-#     cust2 = list(dfFinal[dfFinal['cluster']==2]['CustomerID'])
-#     cluster2 = dfCleaned[dfCleaned['CustomerID'].isin(cust2)]
-#     cust3 = list(dfFinal[dfFinal['cluster']==3]['CustomerID'])
-#     cluster3 = dfCleaned[dfCleaned['CustomerID'].isin(cust3)]
-#     cust4 = list(dfFinal[dfFinal['cluster']==4]['CustomerID'])
-#     cluster4 = dfCleaned[dfCleaned['CustomerID'].isin(cust4)]
-#     cust5 = list(dfFinal[dfFinal['cluster']==5]['CustomerID'])
-#     cluster5 = dfCleaned[dfCleaned['CustomerID'].isin(cust5)]
-#     cust6 = list(dfFinal[dfFinal['cluster']==6]['CustomerID'])
-#     cluster6 = dfCleaned[dfCleaned['CustomerID'].isin(cust6)]
-#     cust7 = list(dfFinal[dfFinal['cluster']==7]['CustomerID'])
-#     cluster7 = dfCleaned[dfCleaned['CustomerID'].isin(cust7)]
-#     x = sorted(cluster0['Month'].unique())
-#     y = cluster0['Month'].value_counts().sort_index()
-#     x1 = sorted(cluster0['Month'].unique())
-#     y1 = cluster0['Month'].value_counts().sort_index()
-#     x2 = sorted(cluster0['Month'].unique())
-#     y2 = cluster0['Month'].value_counts().sort_index()
-#     x3 = sorted(cluster0['Month'].unique())
-#     y3 = cluster0['Month'].value_counts().sort_index()
-#     x4 = sorted(cluster0['Month'].unique())
-#     y4 = cluster0['Month'].value_counts().sort_index()
-#     x5 = sorted(cluster0['Month'].unique())
-#     y5 = cluster0['Month'].value_counts().sort_index()
-#     x6 = sorted(cluster0['Month'].unique())
-#     y6 = cluster0['Month'].value_counts().sort_index()
-#     x7 = sorted(cluster0['Month'].unique())
-#     y7 = cluster0['Month'].value_counts().sort_index()
-#     fig = go.Figure()
-
-#     # Add traces
-#     fig.add_trace(
-#         data = [go.Bar(
-#                 x=x,
-#                 y=y
-#             )]
-#     )
-
-#     fig.add_trace(
-#         data = [go.Bar(
-#                 x=x1,
-#                 y=y1
-#             )]
-#     )
-
-#     fig.add_trace(
-#         data = [go.Bar(
-#                 x=x2,
-#                 y=y2
-#             )]
-#     )
-
-#     fig.add_trace(
-#         data = [go.Bar(
-#                 x=x3,
-#                 y=y3
-#             )]
-#     )
-    
-#     fig.add_trace(
-#         data = [go.Bar(
-#                 x=x4,
-#                 y=y4
-#             )]
-#     )
-
-#     fig.add_trace(
-#         data = [go.Bar(
-#                 x=x5,
-#                 y=y5
-#             )]
-#     )
-
-#     fig.add_trace(
-#         data = [go.Bar(
-#                 x=x6,
-#                 y=y6
-#             )]
-#     )
-
-#     fig.add_trace(
-#         data = [go.Bar(
-#                 x=x7,
-#                 y=y7
-#             )]
-#     )
-
-#     fig.update_layout(
-#         updatemenus=[
-#             go.layout.Updatemenu(buttons=list([
-#                 dict(label="Cluster 0",
-#                     method="relayout",
-#                     args=["shapes", cluster0]),
-#                 dict(label="Cluster 1",
-#                     method="relayout",
-#                     args=["shapes", cluster1]),
-#                 dict(label="Cluster 2",
-#                     method="relayout",
-#                     args=["shapes", cluster2]),
-#                 dict(label="Cluster 3",
-#                     method="relayout",
-#                     args=["shapes", cluster3]),
-#                 dict(label="Cluster 0",
-#                     method="relayout",
-#                     args=["shapes", cluster4]),
-#                 dict(label="Cluster 1",
-#                     method="relayout",
-#                     args=["shapes", cluster5]),
-#                 dict(label="Cluster 2",
-#                     method="relayout",
-#                     args=["shapes", cluster6]),
-#                 dict(label="Cluster 3",
-#                     method="relayout",
-#                     args=["shapes", cluster7]),
-#             ]),
-#             )
-#         ]
-#     )
-
-#     # Update remaining layout properties
-#     fig.update_layout(
-#         title_text="Highlight Clusters",
-#         showlegend=False,
-#     )
-#     chart_link = api_create(p, filename="dropdown-2")
-#     chart_link
 
 
 def bar_plot():
@@ -199,11 +64,11 @@ def bar_plot():
     data = [
         go.Bar(
             x=x,
-            y=y
+            y=y,
         )
     ]
 
-    barGraph = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+    barGraph = json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
     return barGraph
 
 def bar_plot1():
@@ -366,10 +231,13 @@ def home():
                 length = df.iloc[(cache['foo']*100):((cache['foo']*100)+100)].index   
         elif requestForm['submit_button'] in list(df['CustomerID']):
                 length = df[df['CustomerID'] == requestForm['submit_button']].index
+                body=request.form
+                print(body['submit_button'])
         # elif requestForm['submit_button'] in list(df['Country']):
         #         length = df[df['Country'] == requestForm['submit_button']].index
         elif requestForm['submit_button'] == 'Fullscreen':
             return redirect('/map')
+        
     return render_template('index.html', headers=header, length=length, df=df, page=cache['page'], plot = pie, plotbar= bar , plotbar1=bar1, plotbar2=bar2,plotbar3=bar3,plotbar4=bar4,plotbar5=bar5,plotbar6=bar6,plotbar7=bar7)
 
 @app.route('/map')
@@ -407,6 +275,32 @@ def foliumMap():
     map.save('templates/map.html')
     return render_template('map.html')
 
+@app.route('/predict', methods=['POST','GET'])
+def predict():
+    dfCleaned = pd.read_csv('dfCleaned.csv', index_col = False)
+    dfCleaned = dfCleaned.drop('Unnamed: 0',axis='columns')
+    produk = dfCleaned['Description'].unique()
+    country = dfCleaned['Country'].unique()
+    if request.method == 'POST':
+        dfCleaned = pd.read_csv('dfCleaned.csv', index_col = False)
+        dfCleaned = dfCleaned.drop('Unnamed: 0',axis='columns')
+        body = request.form
+        deskripsi = body['description']
+        harga = round(dfCleaned[dfCleaned['Description'] == body['description']]['UnitPrice'].mean(),2)
+        tanggal = body['date']
+        invoice = body['invoice']
+        quantitas = body['quantity']
+        cancel = body['quantitycancel']
+        invoice = body['invoice']
+        print(deskripsi,harga,tanggal,invoice,quantitas,cancel,invoice)
+        return render_template('predict.html',produk=produk, country=country)
+    return render_template('predict.html',produk=produk, country=country)
+
+@app.route('/yey', methods=['POST'])
+def yey():
+    data = request.form
+    print(data)
+    return ('yey')
 
 if (__name__) == '__main__':
     app.run(
