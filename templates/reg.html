@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Document</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+    <style>
+        a{
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="../static/css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="../static/css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="../static/css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../static/css/magnific-popup.css">
+
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="../static/css/flexslider.css">
+
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="../static/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../static/css/owl.theme.default.min.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="../static/css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="../static/js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+    
+</head>
+<body>
+    <nav style="position: initial">
+            <div class="nav white" id="colorlib-logo">
+              <a class="brand-logo" style="margin-left: 15px; margin-top: 10px; font-size: smaller; color: black"><h1><b>Custom&Buy.com</b></h1></a>
+              <ul id="nav-mobile" class="right hide-on-med-and-down">
+                  <li style="margin-left: -850px; color: black">
+                    <form method='POST' action="http://localhost:5000/signup" class='row'>
+                        <div class="row">
+                            <div class="input-field col s12">
+                            Enter your email:  
+                            <div class="input-field inline">
+                            <input id='email_inline' type='email' name='email' class="validate"/>
+                            <label for="email_inline" style="font-size: 12px;">Email</label>
+                            </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li style="margin-left: -550px; color: black">
+                        <div class="row">
+                            <div class="col s12">
+                            Enter your Password:
+                            <div class="input-field inline">
+                            <input id='password_inline' type='password' name='password' class="validate"/>
+                            <label for="password_inline" style="font-size: 12px;">Password</label>
+                            </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li style="margin-left: -200px; color: black">
+                        <div class="row">
+                        <button class="waves-effect waves-light btn blue darken-4" type="submit">Sign Up</button>
+                        <button class="waves-effect waves-light btn blue darken-4" type="submit" formaction="http://localhost:5000/login">Log In</button>
+                        </div>
+                    </form>
+                    </li>
+              </ul>
+            </div>
+          </nav>
+          <aside id="colorlib-hero">
+			<div class="flexslider">
+				<ul class="slides">
+			   	<li style="background-image: url(../static/blog-2.jpg);">
+			   		<div class="overlay"></div>
+			   		<div class="container">
+			   			<div class="row">
+				   			<div class="col-md-6 col-md-pull-3 col-sm-12 col-xs-12 col-md-offset-3 slider-text">
+				   				<div class="slider-text-inner">
+				   					<div class="desc">
+				   						<p class="meta">
+												<span class="cat"><a href="#">Welcome !</a></span>
+												<span class="date">to</span>
+												<span class="pos"> <a href="#">Custom&Buy.com</a></span>
+											</p>
+                                           <h1>{{msg1}}</h1>
+                                           <h1>{{msg2}}</h1>
+                                           <h1>{{msg3}}</h1>
+				   					</div>
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>
+			   	<li style="background-image: url(../static/blog-3.jpg);">
+                    <div class="overlay"></div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-md-pull-3 col-sm-12 col-xs-12 col-md-offset-3 slider-text">
+                                <div class="slider-text-inner">
+                                    <div class="desc">
+                                        <p class="meta">
+                                             <span class="cat"><a href="#">Get Your Special Discount</a></span>
+                                             <span class="date">at</span>
+                                             <span class="pos"><a href="#">Custom&Buy.com</a></span>
+                                         </p>
+                                         <h1>{{msg1}}</h1>
+                                         <h1>{{msg2}}</h1>
+                                         <h1>{{msg3}}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+			   	</li>
+			   	<li style="background-image: url(../static/blog-1.jpg);">
+                    <div class="overlay"></div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-md-pull-3 col-sm-12 col-xs-12 col-md-offset-3 slider-text">
+                                <div class="slider-text-inner">
+                                    <div class="desc">
+                                        <p class="meta">
+                                             <span class="cat"><a href="#">Easily, Priceless, and Memorable</a></span>
+                                             <span class="date">stay</span>
+                                             <span class="pos"> at <a href="#">Custom&Buy.com</a></span>
+                                         </p>
+                                         <h1>{{msg1}}</h1>
+                                         <h1>{{msg2}}</h1>
+                                         <h1>{{msg3}}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+			   	</li>
+			   	<li style="background-image: url(../static/blog-5.jpg);">
+                    <div class="overlay"></div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-md-pull-3 col-sm-12 col-xs-12 col-md-offset-3 slider-text">
+                                <div class="slider-text-inner">
+                                    <div class="desc">
+                                        <p class="meta">
+                                             <span class="cat"><a href="#">Create Your Own Creativity</a></span>
+                                             <span class="date">in</span>
+                                             <span class="pos"> <a href="#">Custom&Buy.com</a></span>
+                                         </p>
+                                         <h1>{{msg1}}</h1>
+                                         <h1>{{msg2}}</h1>
+                                         <h1>{{msg3}}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+		</aside>
+</body>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!-- jQuery -->
+<script src="../static/js/jquery.min.js"></script>
+<!-- jQuery Easing -->
+<script src="../static/js/jquery.easing.1.3.js"></script>
+<!-- Bootstrap -->
+<script src="../static/js/bootstrap.min.js"></script>
+<!-- Waypoints -->
+<script src="../static/js/jquery.waypoints.min.js"></script>
+<!-- Flexslider -->
+<script src="../static/js/jquery.flexslider-min.js"></script>
+<!-- Owl carousel -->
+<script src="../static/js/owl.carousel.min.js"></script>
+<!-- Magnific Popup -->
+<script src="../static/js/jquery.magnific-popup.min.js"></script>
+<script src="../static/js/magnific-popup-options.js"></script>
+<!-- Main -->
+<script src="../static/js/main.js"></script>
+</html>

@@ -29,23 +29,19 @@
       </ul>
     <div id="home" style="display: block">
     <form action="" method="POST">
-        <div class="row" style="margin-left: 3%; margin-top: 1%;">
+        <div class="row" style="margin-left: 3%;">
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s6" style="margin-left: 2%">
                   <input id="first_name2" type="text" class="validate"  name="submit_button">
                   <label class="active" for="first_name2">Customer ID</label>
-                  <button class="btn btn-primary light-blue lighten-3" type="submit">Submit</button>
+                  <button class="btn btn-primary light-blue lighten-3" type="submit" style="margin-left: 35%;">Submit</button>
                 </div>
-                <!-- <div class="input-field col s6" style="margin-left: 2%">
-                  <input id="last_name" type="text" class="validate" name="submit_button">
-                  <label class="active" for="last_name">Country</label>
-                </div> -->
               </div>
             </form>
           </div>
     </form>
-    <center><h4><b>Data Customer Transactions</b></h4></center>
+    <center><h5><b>Data Customer Transactions</b></h5></center>
     <table id='customers'>
         <tr>
         {% for header in headers %}<th>{{ header }}&nbsp&nbsp</th>{% endfor %}
@@ -57,20 +53,18 @@
         </tr>
         {% endfor %}
     </table>
-    <form action="" method="POST">
-    <input class="file-field input-field col-md-1" type="submit"  name="submit_button"  value="Previous" style="margin-left: 42%"/>
-    <input class="file-field input-field col-md-1" type="submit"  name="submit_button"  value="Next"/>
+    <form action="" method="POST" style="margin-top: 1%;">
+    <button class="btn btn-primary light-blue lighten-3"   name="submit_button"  value="Previous" style="margin-left: 48%">Prev</button>
+    <button class="btn btn-primary light-blue lighten-3"  name="submit_button"  value="Next">Next</button>
     </form>
     </div>
-    <form action="http://localhost:5000/" method="POST">
-    <div id='map' style="display: none; width: 700px; height:500px;margin-top: 4%;margin-left: 22%">
-        {% block body %}
-        {% include "map.html" %}
-        {% endblock %}  
-        <input class="file-field input-field col-md-2" type="submit" name="submit_button" value="Fullscreen" style="margin-left: 42%">
+    <form action="http://localhost:5000/dashboard" method="POST">
+    <div id='map' style="display: none; width: 650px; height:500px;margin-top:1%;margin-left: 22%">
+        <iframe src=' http://localhost:5000/map' width=650px height=500px></iframe>'
+        <button class="btn btn-primary light-blue lighten-3"   name="submit_button"  value="Fullscreen" style="margin-left: 48%">Fullscreen</button>
     </div>
     <div id="plot1" style="display: none">
-        <center><div class="chart" id="pie" style="width: 700px; height:700px"></div></center>
+        <center><div class="chart" id="pie" style="width: 650px; height:650px"></div></center>
     </div>
     <div id="plot2" style="display: none">
       <div class="dropdown">
@@ -89,59 +83,51 @@
         </div>
       </div>
       <div id='cluster0' style="display: block">
-      <center><div class="chart" id="cl0" style="width: 700px; height:700px"></div></center>
+        <center><h5><b>Number of Invoices per month Cluster 0</b></h5>
+      <div class="chart" id="cl0" style="width: 500px; height:500px"></div></center>
       </div>
       <div id='cluster1' style="display:none">
-      <center><div class="chart" id="cl1" style="width: 700px; height:700px"></div></center>
+          <center><h5><b>Number of Invoices per month Cluster 1</b></h5>
+      <div class="chart" id="cl1" style="width: 500px; height:500px"></div></center>
       </div>
       <div id='cluster2' style="display:none">
-      <center><div class="chart" id="cl2" style="width: 700px; height:700px"></div></center>
+          <center><h5><b>Number of Invoices per month Cluster 2</b></h5>
+      <div class="chart" id="cl2" style="width: 500px; height:500px"></div></center>
       </div>  
       <div id='cluster3' style="display:none">
-      <center><div class="chart" id="cl3" style="width: 700px; height:700px"></div></center>
+          <center><h5><b>Number of Invoices per month Cluster 3</b></h5>
+      <div class="chart" id="cl3" style="width: 500px; height:500px"></div></center>
       </div>  
       <div id='cluster4' style="display:none">
-      <center><div class="chart" id="cl4" style="width: 700px; height:700px"></div></center>
+          <center><h5><b>Number of Invoices per month Cluster 4</b></h5>
+      <div class="chart" id="cl4" style="width: 500px; height:500px"></div></center>
       </div> 
       <div id='cluster5' style="display:none">
-      <center><div class="chart" id="cl5" style="width: 700px; height:700px"></div></center>
+          <center><h5><b>Number of Invoices per month Cluster 5</b></h5>
+      <div class="chart" id="cl5" style="width: 500px; height:500px"></div></center>
       </div> 
       <div id='cluster6' style="display:none">
-      <center><div class="chart" id="cl6" style="width: 700px; height:700px"></div></center>
+          <center><h5><b>Number of Invoices per month Cluster 6</b></h5>
+      <div class="chart" id="cl6" style="width: 500px; height:500px"></div></center>
       </div> 
       <div id='cluster7' style="display:none">
-      <center><div class="chart" id="cl7" style="width: 700px; height:700px"></div></center>
+          <center><h5><b>Number of Invoices per month Cluster 7</b></h5>
+      <div class="chart" id="cl7" style="width: 500px; height:500px"></div></center>
       </div> 
     </div>
     <div id="predict" style="display: none">
-    <form class="col s3">
-      <div class="row">
-        <div class="input-field col s6">
-          <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-          <label for="first_name">First Name</label>
-        </div>
-        <div class="input-field col s3">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Last Name</label>
-        </div>
-        <div class="input-field col s6">
-          <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-          <label for="first_name">First Name</label>
-        </div>
-        <div class="input-field col s3">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Last Name</label>
-        </div>
-        <div class="input-field col s6">
-          <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-          <label for="first_name">First Name</label>
-        </div>
-        <div class="input-field col s3">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Last Name</label>
-        </div>
-      </div>
-      </form>
+      <center><h5><b>Data Clustering</b></h5></center>
+      <table id='customers'>
+        <tr>
+        {% for h in head %}<th>{{ h }}&nbsp&nbsp</th>{% endfor %}
+        </tr>
+        {% for p in lengths %}
+        <tr>
+        {% for q in head %}<td>{{ dfPrediksi.ix[p,q] }}&nbsp&nbsp</td>
+        {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
     </div>
 </body>
 <!-- Javascript Bootstrap -->

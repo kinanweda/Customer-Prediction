@@ -1,11 +1,26 @@
 from flask import Flask, render_template, request, redirect
+from datetime import date, timedelta
 import numpy as np
 import pandas as pd
 import matplotlib as plt
 import plotly.graph_objects as go
-import requests,plotly,json,folium
+import requests,plotly,json,folium,mysql.connector, sqlalchemy, pickle, sqlalchemy,datetime
+
 
 app = Flask(__name__)
+
+db = mysql.connector.connect(
+    host =  '127.0.0.1',
+    port = 3306,
+    user = 'kinanweda',
+    passwd = 'Jimbamamba22',
+    database = 'ProjectAkhir' 
+)
+
+
+conn = sqlalchemy.create_engine(
+    'mysql+pymysql://kinanweda:Jimbamamba22@localhost:3306/ProjectAkhir'
+)
 
 country_geo = 'world-countries.json'
 
@@ -15,6 +30,27 @@ cache={'foo':0,'page':'data'}
 
 dfCleaned = pd.read_csv('dfCleaned.csv', index_col = False)
 dfCleaned = dfCleaned.drop('Unnamed: 0',axis='columns')
+
+def loadEncoder():
+    global labelEncoder
+    with open('labelencoder.pickle','rb') as j:
+        labelEncoder = pickle.load(j)
+
+def loadCluster():
+    global clusters
+    with open('product_clusters.pickle','rb') as x :
+        clusters = pickle.load(x)
+
+def loadModel():
+    global model
+    with open('modelpredict.pkl','rb') as y :
+        model = pickle.load(y)
+
+def loadScaler():
+    global scaler
+    with open('scaler.pickle','rb') as f :
+        scaler = pickle.load(f)
+
 
 def create_plot():
     dfCleaned = pd.read_csv('dfCleaned.csv', index_col = False)
@@ -27,8 +63,6 @@ def create_plot():
 
     temp = dfCleaned.groupby(by=['CustomerID', 'InvoiceNo'], as_index=False)['TotalPrice'].sum()
     basketPrice = temp.rename(columns = {'TotalPrice':'Basket Price'})
-    #_____________________
-    # Tanggal pemesanan
     dfCleaned['InvoiceDate_int'] = dfCleaned['InvoiceDate'].astype('int64')
     temp = dfCleaned.groupby(by=['CustomerID', 'InvoiceNo'], as_index=False)['InvoiceDate_int'].mean()
     dfCleaned.drop('InvoiceDate_int', axis = 1, inplace = True)
@@ -46,7 +80,7 @@ def create_plot():
                         (basketPrice['Basket Price'] > prices[i-1])]['Basket Price'].count()
         values.append(val)
 
-    data=[go.Pie(labels=labels, values=values, title='Pie Chart', titleposition='top center', titlefont=dict(size=25))]
+    data=[go.Pie(labels=labels, values=values, title='Transactions Distirbution', titleposition='top center', titlefont=dict(size=25))]
     graphJson = json.dumps(data,cls=plotly.utils.PlotlyJSONEncoder)
     # print(graphJson)
     return graphJson
@@ -61,8 +95,7 @@ def bar_plot():
     cluster0 = dfCleaned[dfCleaned['CustomerID'].isin(cust0)]
     x = sorted(cluster0['Month'].unique())
     y = cluster0['Month'].value_counts().sort_index()
-    data = [
-        go.Bar(
+    data = [go.Bar(
             x=x,
             y=y,
         )
@@ -204,8 +237,12 @@ def bar_plot7():
     barGraph7 = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
     return barGraph7
 
-@app.route('/', methods=['POST','GET'])
+@app.route('/')
 def home():
+    return render_template('reg.html')
+
+@app.route('/dashboard', methods=['POST','GET'])
+def dashboard():
     requestForm = request.form.to_dict()
     header = df.columns.tolist()
     length = df.iloc[0:100].index
@@ -218,6 +255,104 @@ def home():
     bar5 = bar_plot5()
     bar6 = bar_plot6()
     bar7 = bar_plot7()
+    dfPredict = pd.read_sql('datacust', conn)
+    dfPredict['TotalPrice'] = dfPredict['UnitPrice'] * (dfPredict['Quantity'] - dfPredict['QuantityCanceled'])
+    dfPredict['InvoiceDate'] = pd.to_datetime(dfPredict['InvoiceDate'])
+    dfPredict['Country'] = labelEncoder.transform(dfPredict['Country'])
+    today = date.today() + timedelta(days=1)
+    now = datetime.datetime(today.year,today.month,today.day)
+    dfPredict['InvoiceDate'] = pd.to_datetime(dfPredict['InvoiceDate'])
+    customAggregation = {}
+    customAggregation["InvoiceDate"] = lambda x:x.iloc[0]
+    customAggregation["CustomerID"] = lambda x:x.iloc[0]
+    customAggregation["TotalPrice"] = "sum"
+    rfmTable = dfPredict.groupby("InvoiceNo").agg(customAggregation)
+    rfmTable["Recency"] = now - rfmTable["InvoiceDate"]
+    rfmTable["Recency"] = pd.to_timedelta(rfmTable["Recency"]).astype("timedelta64[D]")
+    customAggregation = {}
+    customAggregation["Recency"] = ["min", "max"]
+    customAggregation["InvoiceDate"] = lambda x: len(x)
+    customAggregation["TotalPrice"] = "sum"
+    rfmTableFinal = rfmTable.groupby("CustomerID").agg(customAggregation)
+    rfmTableFinal.columns = ["min_recency", "max_recency", "frequency", "monetary_value"]
+    quantiles = rfmTableFinal.quantile(q=[0.25,0.5,0.75])
+    quantiles = quantiles.to_dict()
+    segmentedRFM = rfmTableFinal
+
+    def RScore(x,p,d):
+        if x <= d[p][0.25]:
+            return 1
+        elif x <= d[p][0.50]:
+            return 2
+        elif x <= d[p][0.75]: 
+            return 3
+        else:
+            return 4
+        
+    def FMScore(x,p,d):
+        if x <= d[p][0.25]:
+            return 4
+        elif x <= d[p][0.50]:
+            return 3
+        elif x <= d[p][0.75]: 
+            return 2
+        else:
+            return 1
+
+    segmentedRFM['r_quartile'] = segmentedRFM['min_recency'].apply(RScore, args=('min_recency',quantiles,))
+    segmentedRFM['f_quartile'] = segmentedRFM['frequency'].apply(FMScore, args=('frequency',quantiles,))
+    segmentedRFM['m_quartile'] = segmentedRFM['monetary_value'].apply(FMScore, args=('monetary_value',quantiles,))
+    segmentedRFM['RFMScore'] = segmentedRFM['r_quartile'].astype('str')+segmentedRFM['f_quartile'].astype('str')+segmentedRFM['m_quartile'].astype('str')
+    dfPredict = pd.merge(dfPredict,segmentedRFM, on='CustomerID')
+    dfPredict = dfPredict.drop(columns=['r_quartile', 'f_quartile', 'm_quartile'])
+    dfPredict['Month'] = dfPredict["InvoiceDate"].map(lambda x: x.month)
+    dfPredict['Weekday'] = dfPredict["InvoiceDate"].map(lambda x: x.weekday())
+    dfPredict['Day'] = dfPredict["InvoiceDate"].map(lambda x: x.day)
+    dfPredict['Hour'] = dfPredict["InvoiceDate"].map(lambda x: x.hour)
+    cluster = dfPredict['Description'].apply(lambda x : clusters[x])
+    df2 = pd.get_dummies(cluster, prefix="Cluster").mul(dfPredict["TotalPrice"], 0)
+    df2 = pd.concat([dfPredict['InvoiceNo'], df2], axis=1)
+    df2_grouped = df2.groupby('InvoiceNo').sum()
+    customAggregation = {}
+    customAggregation["TotalPrice"] = lambda x:x.iloc[0]
+    customAggregation["min_recency"] = lambda x:x.iloc[0]
+    customAggregation["max_recency"] = lambda x:x.iloc[0]
+    customAggregation["frequency"] = lambda x:x.iloc[0]
+    customAggregation["monetary_value"] = lambda x:x.iloc[0]
+    customAggregation["CustomerID"] = lambda x:x.iloc[0]
+    customAggregation["Quantity"] = "sum"
+    customAggregation["Country"] = lambda x:x.iloc[0]
+    df_grouped = dfPredict.groupby("InvoiceNo").agg(customAggregation)
+    customAggregation = {}
+    customAggregation["TotalPrice"] = ['min','max','mean']
+    customAggregation["min_recency"] = lambda x:x.iloc[0]
+    customAggregation["max_recency"] = lambda x:x.iloc[0]
+    customAggregation["frequency"] = lambda x:x.iloc[0]
+    customAggregation["monetary_value"] = lambda x:x.iloc[0]
+    customAggregation["Quantity"] = "sum"
+    customAggregation["Country"] = lambda x:x.iloc[0]
+    df_grouped_final = df_grouped.groupby("CustomerID").agg(customAggregation)
+    df_grouped_final.columns = ["min", "max", "mean", "min_recency", "max_recency", "frequency", "monetary_value", "quantity", "country"]
+    df2_grouped_final = pd.concat([df_grouped['CustomerID'], df2_grouped], axis=1).set_index("CustomerID").groupby("CustomerID").sum()
+    df2_grouped_final = df2_grouped_final.div(df2_grouped_final.sum(axis=1), axis=0)
+    df2_grouped_final = df2_grouped_final.fillna(0)
+    df3 = df2_grouped_final.copy()
+    for j in df3.columns:
+        df3.drop(str(j),axis=1,inplace=True)
+    for i in range(135):
+        df3['Cluster_' + str(i)] = 0.0
+    df2_grouped_final = df2_grouped_final.reindex(sorted(df2_grouped_final.columns), axis=1)
+    for i in df2_grouped_final.columns.values:
+        df3[i] = df3[i].replace({0.0:df2_grouped_final[i].values.tolist()})
+    X1 = df_grouped_final.as_matrix()
+    X2 = df3.as_matrix()
+    X1 = scaler.transform(X1)
+    X_final_std_scale = np.concatenate((X1, X2), axis=1)
+    hasilCLuster = model.predict(X_final_std_scale)
+    df_grouped_final["cluster"] = hasilCLuster
+    df_grouped_final = df_grouped_final.reset_index()
+    head = df_grouped_final.columns.tolist()
+    lengths = df_grouped_final.index
     if request.method == 'POST' :
         if requestForm['submit_button'] == 'Next': 
             cache['foo'] += 1
@@ -238,7 +373,7 @@ def home():
         elif requestForm['submit_button'] == 'Fullscreen':
             return redirect('/map')
         
-    return render_template('index.html', headers=header, length=length, df=df, page=cache['page'], plot = pie, plotbar= bar , plotbar1=bar1, plotbar2=bar2,plotbar3=bar3,plotbar4=bar4,plotbar5=bar5,plotbar6=bar6,plotbar7=bar7)
+    return render_template('index.html', dfPrediksi = df_grouped_final, head = head, lengths = lengths, headers=header, length=length, df=df, page=cache['page'], plot = pie, plotbar= bar , plotbar1=bar1, plotbar2=bar2,plotbar3=bar3,plotbar4=bar4,plotbar5=bar5,plotbar6=bar6,plotbar7=bar7)
 
 @app.route('/map')
 def foliumMap():
@@ -275,8 +410,8 @@ def foliumMap():
     map.save('templates/map.html')
     return render_template('map.html')
 
-@app.route('/predict', methods=['POST','GET'])
-def predict():
+@app.route('/creator', methods=['POST','GET'])
+def creator():
     dfCleaned = pd.read_csv('dfCleaned.csv', index_col = False)
     dfCleaned = dfCleaned.drop('Unnamed: 0',axis='columns')
     produk = dfCleaned['Description'].unique()
@@ -285,24 +420,79 @@ def predict():
         dfCleaned = pd.read_csv('dfCleaned.csv', index_col = False)
         dfCleaned = dfCleaned.drop('Unnamed: 0',axis='columns')
         body = request.form
+        used = db.cursor()
         deskripsi = body['description']
         harga = round(dfCleaned[dfCleaned['Description'] == body['description']]['UnitPrice'].mean(),2)
-        tanggal = body['date']
-        invoice = body['invoice']
         quantitas = body['quantity']
-        cancel = body['quantitycancel']
-        invoice = body['invoice']
-        print(deskripsi,harga,tanggal,invoice,quantitas,cancel,invoice)
-        return render_template('predict.html',produk=produk, country=country)
-    return render_template('predict.html',produk=produk, country=country)
+        a = {key:val for key,val in zip(dfCleaned['Description'].values.tolist(),dfCleaned['StockCode'].values.tolist())}
+        stock = a[body['description']]
+        customer = body['customer']
+        negara = body['country']
+        email = body['email']
+        qry1 = 'select * from login where email = %s'
+        val1 = (email,)
+        used.execute(qry1,val1)
+        hasil = used.fetchall()
+        cust = hasil[0][0]
+        password = body['password']
+        qry = 'insert into datacust (StockCode,Description,Quantity,UnitPrice,CustomerID,Country) values(%s,%s,%s,%s,%s,%s)'
+        val = (stock,deskripsi,quantitas,harga,customer,negara)
+        used.execute(qry, val)
+        db.commit()
+        return render_template('success.html', email=email, password=password, cust=cust) #cost=cost)
+    return render_template('creator.html',produk=produk, country=country)
 
-@app.route('/yey', methods=['POST'])
-def yey():
-    data = request.form
-    print(data)
-    return ('yey')
+@app.route('/signup', methods = ['POST'])
+def signup():
+    try:
+        request.method == 'POST'
+        # body = request.json
+        body = request.form
+        used = db.cursor()
+        qry = 'insert into login (email, password) values(%s,%s)'
+        val = (body['email'],body['password'])
+        used.execute(qry, val)
+        db.commit()
+        return redirect('/')    
+    except mysql.connector.Error:
+        msg = 'Customer ID has been registered!'
+        return render_template('reg.html', msg1=msg) 
+
+@app.route('/login', methods=['POST'])
+def login():
+    if request.method == 'POST':
+        body = request.form
+        email = body['email']
+        password = body['password']
+        used = db.cursor()
+        qry = 'select * from login where email = %s'
+        val = (email,)
+        used.execute(qry,val)
+        hasil = used.fetchall()
+        msg = 'Your Email Has Not Been Registered!'
+        if hasil == []:
+            return render_template('reg.html', msg2=msg)
+        else:
+            qry = 'select * from login where email = %s and password = %s'
+            val = (body['email'],body['password'])
+            used.execute(qry,val)
+            hasil = used.fetchall()
+            msg = 'Your password is wrong!'
+            if hasil == [] :
+                return render_template('reg.html', msg3= msg)
+            else :
+                cust = hasil[0][0]
+                dfCleaned = pd.read_csv('dfCleaned.csv', index_col = False)
+                dfCleaned = dfCleaned.drop('Unnamed: 0',axis='columns')
+                produk = dfCleaned['Description'].unique()
+                country = dfCleaned['Country'].unique()
+                return render_template('creator.html', cust=cust, produk=produk, country=country, email=email,password=password)
 
 if (__name__) == '__main__':
+    loadCluster()
+    loadEncoder()
+    loadModel()
+    loadScaler()
     app.run(
         debug=True,
         host='localhost',

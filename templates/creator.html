@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Creativity Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+    <style>
+            .datepicker-dropdown {
+              top: 0;
+              left: 0;
+              padding: 4px;
+              background-color: #2C6E8E;
+              border-radius: 10px;
+            }
+            .datepicker table {
+              margin: 0;
+              -webkit-touch-callout: none;
+              -webkit-user-select: none;
+              -khtml-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+            
+            }
+            
+            .datepicker table tr td,
+            .datepicker table tr th {
+              text-align: center;
+              width: 30px;
+              height: 30px;
+              border-radius: 4px;
+              border: none;
+              color: #FFFFFF;
+            }
+            
+            .datepicker table tr td.day:hover,
+            .datepicker table tr td.focused {
+              background: #555555;
+              cursor: pointer;
+            }
+            .datepicker table tr td.old,
+            .datepicker table tr td.new {
+              color: #FF8000;
+            }
+            
+            .datepicker table tr td.today {
+              color: #000000;
+              background-color: #FFA953;
+              border-color: #FFB76F;
+            }
+            .datepicker table tr td.today:hover {
+              color: #FFFFFF;
+              background-color: #884400;
+              border-color: #f59e00;
+            }
+            .datepicker table tr td.active:active,
+            .datepicker table tr td.active.highlighted:active,
+            .datepicker table tr td.active.active,
+            .datepicker table tr td.active.highlighted.active,
+            .open > .dropdown-toggle.datepicker table tr td.active,
+            .open > .dropdown-toggle.datepicker table tr td.active.highlighted {
+              color: #ffffff;
+              background-color: #419841;
+              border-color: #285e8e;
+            }
+            
+            
+            .datepicker table tr td.active:active:hover,
+            .datepicker table tr td.active.highlighted:active:hover,
+            .datepicker table tr td.active.active:hover,
+            .datepicker table tr td.active.highlighted.active:hover,
+            .open > .dropdown-toggle.datepicker table tr td.active:hover,
+            .open > .dropdown-toggle.datepicker table tr td.active.highlighted:hover,
+            .datepicker table tr td.active:active:focus,
+            .datepicker table tr td.active.highlighted:active:focus,
+            .datepicker table tr td.active.active:focus,
+            .datepicker table tr td.active.highlighted.active:focus,
+            .open > .dropdown-toggle.datepicker table tr td.active:focus,
+            .open > .dropdown-toggle.datepicker table tr td.active.highlighted:focus,
+            .datepicker table tr td.active:active.focus,
+            .datepicker table tr td.active.highlighted:active.focus,
+            .datepicker table tr td.active.active.focus,
+            .datepicker table tr td.active.highlighted.active.focus,
+            .open > .dropdown-toggle.datepicker table tr td.active.focus,
+            .open > .dropdown-toggle.datepicker table tr td.active.highlighted.focus {
+              color: #ffffff;
+              background-color: #285e8e;
+              border-color: #193c5a;
+            }
+            .datepicker table tr td.active:active,
+            .datepicker table tr td.active.highlighted:active,
+            .datepicker table tr td.active.active,
+            .datepicker table tr td.active.highlighted.active,
+            .open > .dropdown-toggle.datepicker table tr td.active,
+            .open > .dropdown-toggle.datepicker table tr td.active.highlighted {
+              color: #ffffff;
+              background-color: #3071a9;
+              border-color: #285e8e;
+            }
+            .datepicker table tr td.active:active:hover,
+            .datepicker table tr td.active.highlighted:active:hover,
+            .datepicker table tr td.active.active:hover,
+            .datepicker table tr td.active.highlighted.active:hover,
+            .open > .dropdown-toggle.datepicker table tr td.active:hover,
+            .open > .dropdown-toggle.datepicker table tr td.active.highlighted:hover,
+            .datepicker table tr td.active:active:focus,
+            .datepicker table tr td.active.highlighted:active:focus,
+            .datepicker table tr td.active.active:focus,
+            .datepicker table tr td.active.highlighted.active:focus,
+            .open > .dropdown-toggle.datepicker table tr td.active:focus,
+            .open > .dropdown-toggle.datepicker table tr td.active.highlighted:focus,
+            .datepicker table tr td.active:active.focus,
+            .datepicker table tr td.active.highlighted:active.focus,
+            .datepicker table tr td.active.active.focus,
+            .datepicker table tr td.active.highlighted.active.focus,
+            .open > .dropdown-toggle.datepicker table tr td.active.focus,
+            .open > .dropdown-toggle.datepicker table tr td.active.highlighted.focus {
+              color: #ffffff;
+              background-color: #285e8e;
+              border-color: #193c5a;
+            }
+            .datepicker .datepicker-switch {
+              width: 145px;
+              
+            }
+            .datepicker .datepicker-switch:hover,
+            .datepicker .prev:hover,
+            .datepicker .next:hover,
+            .datepicker tfoot tr th:hover {
+              background: #50A2C9;
+            }
+            </style>
+</head>
+<body style="background-image: url(../static/img_bg_1.jpg);">
+      <div class="col" style="margin-top: -10px;">
+      <h3 style="margin-left: 2%;"><b>Welcome back {{cust}}!</b> The greatest creativity is being created!</h3>
+      <a class="btn-primary light-blue lighten-3 btn-lg" role="button" href="http://localhost:5000/" style="margin-left: 93%;">Log Out</a>
+      </div>
+  </div>
+    <div class="container" style="height: 600px;width: 400px;margin: 50px;background-color: cornsilk;transform: translate(0px,0px);overflow: hidden; border-radius: 10px;margin-left: 38.5%;">
+      <br>
+      <p><b>Pour your imagination below</b></p>
+        <form action="http://localhost:5000/creator" method="POST">
+          <div class="row">
+            <div class="dropdown show" style="margin-left: 6%;">
+              <label>Choose the product</label>
+              <select class="form-control form-control-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="description" style="height: 55%;"> 
+                <option class="dropdown-menu" value="" disable selected>Choose your option</option>
+                {% for item in produk %}
+                <option value="{{item}}">{{item}}</option>{% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="dropdown show" style="margin-left: 2%;"> 
+            <label>Country</label>
+            <select class="form-control form-control-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="country" style="height: 55%; width: 270px"> 
+              <option value="" disabled selected>Choose your option</option>
+              {% for country in country %}
+              <option value="{{country}}">{{country}}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="form-group mx-sm-3 mb-2" style="margin-left: 0px; margin-top: 5px;">
+            <label>Quantity</label>
+            <input type="number" class="form-control" name="quantity" placeholder="Quantity" style="width: 270px;"/>
+          </div>
+          <div class="form-group mx-sm-3 mb-2" style="margin-left: 0px; margin-top: 5px;">
+            <label>CustomerID</label>
+            <input type="number" class="form-control" name="customer" placeholder="{{cust}}" value="{{cust}}"style="width: 270px;"/>
+          </div>
+          <!-- <div class="form-group mx-sm-3 mb-2" style="margin-left: 0px; margin-top: 5px;">
+            <label>Total Price</label>
+            <input type="number" class="form-control" name="totalprice" placeholder="{{cost}}" value="{{cost}}"style="width: 270px;"/>
+          </div> -->
+          <div class="form-group mx-sm-3 mb-2" style="margin-left: 0px; margin-top: 5px;">
+              <input type="hidden" class="form-control" name="email" placeholder="{{email}}" value="{{email}}"style="width: 270px;"/>
+            </div>
+          <div class="form-group mx-sm-3 mb-2" style="margin-left: 0px; margin-top: 5px;">
+              <input type="hidden" class="form-control" name="password" placeholder="{{password}}" value="{{password}}"style="width: 270px;"/>
+            </div>
+          <div class="form-group mx-sm-3 mb-2" style="margin-left: 0px; margin-top: 5px;">
+            <label>Description</label>
+            <textarea type="text" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Describe your imagination and realize it" style="width: 270px;height: 200px;"></textarea>
+          </div>
+          <div>
+              <center><button class="btn btn-primary light-blue lighten-3 btn-lg" type="submit">Buy!</button></center>
+          </div>
+          </form>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>   
+<script type='text/javascript'>
+$(function(){
+$('.input-group.date').datepicker({
+    orientation: "auto left",
+    forceParse: false,
+    autoclose: true,
+    todayHighlight: true,
+    toggleActive: true,
+});
+});
+
+</script>
+</html>
